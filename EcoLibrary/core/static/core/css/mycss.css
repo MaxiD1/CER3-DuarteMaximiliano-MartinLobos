@@ -1,0 +1,81 @@
+/*
+div{
+    Quizas usar en algun momento
+    width: 200px;
+    height: 200px; 
+    width: 20vw;
+    height: 20vw;
+    background-color: #FFD166;
+    border: #212121 solid 1px;
+    margin-bottom: 10px;
+    margin-left: 1vw;
+    padding-top: 8vw;
+    box-sizing: border-box;
+    text-align: center;
+    float: left;
+
+    Ancho
+    width: 100%;
+    Borde - tipo - ancho 
+    border: solid 1px;
+}
+*/
+
+/*
+Paleta de colores:
+#ccd5ae (verde?)
+#e9edc9
+#fefae0 (crema?)
+#faedcd
+#d4a373 (cafe?)
+*/
+
+/* Formato de las tarjetas (class=card) */
+.card{
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    /* Ancho */
+    width: 18rem;
+    margin: 5px;
+    /* Borde - tipo - ancho */
+    border: solid 1px;
+    float: left;
+}
+
+body {
+    padding-top: 70px;
+    background-color: #fefae0 !important;
+}
+
+/* Elementos en main.html */
+.evento_importante{
+    /*
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    */
+    position: absolute;
+    width: 90%;
+    background-color: #e9edc9;
+    left: 5%;
+    margin: 3px;
+}
+
+.imagen_evento{
+    text-align: center;
+}
+
+.imagen_evento > img{
+    max-width: 90%;
+    width: auto;
+    max-height: 90%;
+    height: auto;
+}
+
+.barra_navegacion{
+    background-color: #d4a373;
+}
+
+#titulo_evento{
+    text-align: center;
+}

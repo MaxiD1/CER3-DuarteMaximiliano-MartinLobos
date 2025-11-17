@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Texto en la pestaña -->
+    <title>Comunidad</title>
+    <!-- Vinculacion con el archivo css -->
+    <link rel="stylesheet" href="{% static 'core/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/mycss.css' %}">
+    <!-- Vinculacion con el archivo js -->
+    <script src="{% static 'core/js/bootstrap.js' %}"></script>
+    <script src="{% static 'core/js/myjs.js' %}"></script>
+    
+</head>
+
+<!-- navbar navbar-default navbar-fixed-top -->
+ <!-- navbar navbar-expand-lg navbar-light bg-light -->
+
+<body>
+    <!-- Barra de navegacion -->
+    {% include 'core/nav_bar.html' %}
+
+   <div class="row row-cols-1 row-cols-lg-1 g-4">
+        <div class="col">
+            <!-- Tarjetas sacadas de bootstrap.com -->
+            <!-- Carta sacada de bootstrap.com -->
+            <div class="card">
+                <div class="card-body">
+                    <!-- Nombre del usuario -->
+                    <h5 class="card-title">Jhon Comentario</h5>
+                    <!-- Fecha de publicacion -->
+                    <p class="card-subtitle mb-2 text-body-secondary">
+                        <small>
+                            <script>
+                                document.write(new Date("1900-01-01T09:23:01"))
+                            </script>
+                        </small>
+                    </p>
+                    <!-- Comentario -->
+                    <p class="card-text">Buen servicio.</p>
+                </div>
+            </div>
+            <!-- ---------------------------------------- -->
+        </div>
+    </div>
+
+    <!-- Formulario sacado de bootstrap.com con algunos cambios -->
+    <br>
+    <form>
+        <!-- Nombre del usuario -->
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombre">
+        </div>
+        <!-- Comentario -->
+        <div class="mb-3">
+            <label for="Comentario" class="form-label">Comentario</label>
+            <input type="text" class="form-control" id="comentario">
+        </div>
+        <!-- Boton para publicar comentario -->
+        <button type="submit" class="btn btn-primary" onclick="mk_comentario()">Publicar</button>
+    </form>
+</body>
+</html>

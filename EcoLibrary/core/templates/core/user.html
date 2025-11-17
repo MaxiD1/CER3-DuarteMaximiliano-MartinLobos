@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Texto en la pestaña -->
+    <title>Eventos</title>
+    <!-- Vinculacion con el archivo css -->
+    <link rel="stylesheet" href="{% static 'core/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/mycss.css' %}">
+    <!-- Vinculacion con el archivo js -->
+    <script src="{% static 'core/js/bootstrap.js' %}"></script>
+    <script src="{% static 'core/js/myjs.js' %}"></script>    
+</head>
+
+<body>
+    <!-- Barra de navegacion -->
+    {% include 'core/nav_bar.html' %}
+
+    <h2>Mis eventos</h2>
+
+{% if eventos %}
+    <div class="row row-cols-1 row-cols-md-1 g-1">
+        {% for evento in eventos %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ evento.titulo }}</h5>
+                <p>{{ evento.fecha_palabra }}</p>
+                <p>{{ evento.descripcion }}</p>
+                <p>Lugar: {{ evento.lugar }}</p>
+                <p>{{ evento.precio }} Pesos la entrada</p>
+                <p><strong>Inscritos:</strong> {{ evento.total_inscritos }} / {{ evento.capacidad }}</p>
+                <form action="{% url 'desinscribirse_evento' evento.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="stay" value="{% url 'user' %}">
+                    <button type="submit" class="btn btn-danger">Desinscribirse</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No estás inscrito en ningún evento aún.</p>
+{% endif %}
+</body>
