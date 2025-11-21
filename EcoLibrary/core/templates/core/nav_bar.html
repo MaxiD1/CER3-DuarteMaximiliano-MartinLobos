@@ -1,6 +1,6 @@
 <div class="barra_navegacion">
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-        <a class="navbar-brand" href="{% url 'home' %}">Smart Event</a>
+        <a class="navbar-brand" href="{% url 'home' %}">EcoLibrary</a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarNav" aria-controls="navbarNav"
@@ -14,11 +14,8 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="{% url 'home' %}">Pagina principal</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'events' %}">Eventos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'community' %}">Comunidad</a>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'books' %}">Libros</a>
                 </li>
             </ul>
 

@@ -1,12 +1,11 @@
 from django.contrib import admin
-from .models import evento
+from .models import libro
 
-#admin.site.register(evento)
-
-@admin.register(evento)
+@admin.register(libro)
 class EventoAdmin(admin.ModelAdmin):
-    list_display = ('titulo', 'fecha', 'mostrar_num_inscritos', 'hay_cupo', 'dinero')
+    list_display = ('titulo', 'autor', 'ano', 'categoria')
 
+    '''
     def mostrar_num_inscritos(self, obj):
         return f"{obj.total_inscritos()} / {obj.capacidad}"
     
@@ -16,3 +15,4 @@ class EventoAdmin(admin.ModelAdmin):
     mostrar_num_inscritos.short_description = 'Inscritos'
 
     dinero.short_description = 'Dinero acumulado'
+    '''

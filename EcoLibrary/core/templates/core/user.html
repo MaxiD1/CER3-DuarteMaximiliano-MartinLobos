@@ -18,29 +18,34 @@
     <!-- Barra de navegacion -->
     {% include 'core/nav_bar.html' %}
 
-    <h2>Mis eventos</h2>
+    <h2>Favoritos</h2>
 
-{% if eventos %}
-    <div class="row row-cols-1 row-cols-md-1 g-1">
-        {% for evento in eventos %}
-        <div class="card mb-3">
-            <div class="card-body">
-                <h5 class="card-title">{{ evento.titulo }}</h5>
-                <p>{{ evento.fecha_palabra }}</p>
-                <p>{{ evento.descripcion }}</p>
-                <p>Lugar: {{ evento.lugar }}</p>
-                <p>{{ evento.precio }} Pesos la entrada</p>
-                <p><strong>Inscritos:</strong> {{ evento.total_inscritos }} / {{ evento.capacidad }}</p>
-                <form action="{% url 'desinscribirse_evento' evento.id %}" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="stay" value="{% url 'user' %}">
-                    <button type="submit" class="btn btn-danger">Desinscribirse</button>
-                </form>
+    <!-- Informacion de cada libro -->
+    <!-- Titulo -->
+    <!-- Autor -->
+    <!-- Descripción -->
+    <!-- Titulo -->
+    <!-- Se podrian añadir otras cosas -->
+
+    {% if libros %}
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        {% for libro in libros %}
+        <div class="col">  <!-- Importante: envolver cada card en una col -->
+            <div class="card h-100 mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ libro.nombre }}</h5>
+                    <p>{{ libro.autor }}</p>
+                    <p>{{ libro.descripcion }}</p>
+                    <form action="{% url 'quitar_favoritos' libro.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="stay" value="{% url 'user' %}">
+                        <button type="submit" class="btn btn-danger">Quitar de favoritos</button>
+                    </form>
+                </div>
             </div>
         </div>
         {% endfor %}
     </div>
-{% else %}
-    <p>No estás inscrito en ningún evento aún.</p>
-{% endif %}
-</body>
+    {% else %}
+    <p>Aún no tienes libros en favoritos.</p>
+    {% endif %}

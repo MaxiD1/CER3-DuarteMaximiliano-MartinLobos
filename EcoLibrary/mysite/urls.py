@@ -21,13 +21,13 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', views.home, name="home"),
-    path('eventos/', views.events, name="events"),
-    path('comunidad/', views.community, name="community"),
+    path('libros/', views.books, name="books"),
+    #path('comunidad/', views.community, name="community"),
     path('registro/', views.register, name="register"),
     path('login/', auth_views.LoginView.as_view(template_name='core/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('eventos/<int:evento_id>/inscribirse/', views.inscribirse_evento, name='inscribirse_evento'),
-    path('eventos/<int:evento_id>/desinscribirse/', views.desinscribirse_evento, name='desinscribirse_evento'),
-    path('usuario/', views.mis_eventos, name='user'),
+    path('libros/<int:libro_id>/anadir_favorito/', views.anadir_favoritos, name='anadir_favoritos'),
+    path('libros/<int:libro_id>/quitar_favorito/', views.quitar_favoritos, name='quitar_favoritos'),
+    path('usuario/', views.mis_favoritos, name='user'),
     path('admin/', admin.site.urls),
 ]

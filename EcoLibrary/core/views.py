@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
-from .models import evento as Evento
+from .models import libro as Libro
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -8,13 +8,9 @@ def home(request):
     #return HttpResponse(titulo)
     return render(request,'core/home.html')
     
-def events(request):
-    events = Evento.objects.all().order_by('fecha')
-    return render(request, 'core/events.html', {'eventos': events})
-
-def community(request):
-    #return HttpResponse(titulo)
-    return render(request,'core/community.html')
+def books(request):
+    libro = Libro.objects.all().order_by('id')
+    return render(request, 'core/books.html', {'libros': books})
 
 def register(request):
     if request.method == 'POST':
@@ -29,30 +25,35 @@ def register(request):
     return render(request, 'core/register.html', {'form': form})
 
 @login_required
-def inscribirse_evento(request, evento_id):
-    evento = get_object_or_404(Evento, id=evento_id)
-    if not evento.hay_cupo():
-        messages.error(request, "Este evento ya está lleno.")
-    elif request.user in evento.inscritos.all():
-        messages.warning(request, "Ya estás inscrito en este evento.")
+def anadir_favoritos(request, libro_id):
+    # Busca el libro en la coleccion
+    libro = get_object_or_404(Libro, id=libro_id)
+    # Revisa si el usuario ya tiene el libro en sus favoritos
+    # Si lo está, no hace nada
+    if request.user in libro.favoritos.all():
+        messages.warning(request, "Ya está en favoritos.")
+    # Si no, lo añade
     else:
-        evento.inscritos.add(request.user)
-        messages.success(request, "Te has inscrito correctamente al evento.")
-    return redirect('events')
+        libro.favoritos.add(request.user)
+        messages.success(request, "Añadido a favoritos.")
+    return redirect('books')
 
 @login_required
-def desinscribirse_evento(request, evento_id):
-    evento = get_object_or_404(Evento, id=evento_id)
-    if request.user in evento.inscritos.all():
-        evento.inscritos.remove(request.user)
-        messages.success(request, "Te has desinscrito del evento.")
+def quitar_favoritos(request, libro_id):
+    libro = get_object_or_404(Libro, id=libro_id)
+    # Revisa si el libro ya está en favoritos
+    # Si lo está, lo quita
+    if request.user in libro.favoritos.all():
+        libro.favoritos.remove(request.user)
+        messages.success(request, "Libro quitado de favoritos.")
+    # Si no, no hace nada
     else:
-        messages.warning(request, "No estabas inscrito en este evento.")
+        messages.warning(request, "No estaba entre tus favoritos.")
     
-    next_url = request.POST.get('stay', 'events')
+    next_url = request.POST.get('stay', 'books')
     return redirect(next_url)
 
 @login_required
-def mis_eventos(request):
-    eventos_inscritos = Evento.objects.filter(inscritos=request.user).order_by('fecha')
-    return render(request, 'core/user.html', {'eventos': eventos_inscritos})
+def mis_favoritos(request):
+    libros_favoritos = Libro.objects.filter(inscritos=request.user).order_by('id')
+    return render(request, 'core/user.html', {'libros': libros_favoritos})
