@@ -33,7 +33,7 @@
                 <div class="card h-100">
 
                     <!-- Imagen -->
-                    {% if book.cover_url %}
+                    {% if libro.imagen %}
                         <img class="card-img-top" src="{{ libro.imagen }}" alt="{{ libro.titulo }}">
                     {% else %}
                         <img class="card-img-top" src="{% static 'core/img/no_cover.png' %}" alt="Sin portada">
@@ -49,10 +49,29 @@
                         <!-- ISBN -->
                         <p class="card-text"><strong>ISBN:</strong> {{ libro.isbn }}</p>
 
+                        <!-- Descripción -->
+                        <p class="card-text"><strong>Descripción:</strong> {{ libro.descripcion }}</p>
+
                         <!-- Botón ver más -->
                         <a href="{% url 'book_detail' libro.isbn %}">
                             <button class="btn btn-primary">Ver más</button>
                         </a>
+                                                <!-- Boton de favorito -->
+                        <!-- Si el usuario esta inscrito -->
+                        {% if user.is_authenticated %}
+                            {% if user in libro.favoritos.all %}
+                                <form action="{% url 'quitar_favoritos' libro.isbn %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Quitar de favoritos</button>
+                                </form>
+                            <!-- Si el evento no esta lleno -->
+                            {% else %}
+                                <form action="{% url 'anadir_favoritos' libro.isbn %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary">Añadir a favoritos</button>
+                                </form>
+                            {% endif %}
+                        {% endif %}
                     </div>
 
                 </div>

@@ -1,6 +1,6 @@
 import requests
 
-BASE_URL = "https://openlibrary.org"
+BASE_URL = "https://openlibrary.org/"
 
 def fetch_json(url):
     r = requests.get(url)
@@ -37,10 +37,10 @@ def get_book_extra_data(isbn):
 
     # Portada
     cover_id = work.get("covers", [None])[0]
-    cover_url = (
-        f"https://covers.openlibrary.org/b/id/{cover_id}-L.jpg"
-        if cover_id else None
-    )
+    cover_url = ""
+    if cover_id:
+        cover_url = f"https://covers.openlibrary.org/b/id/{cover_id}-L.jpg"
+
 
     return {
         "title": work.get("title"),

@@ -32,11 +32,16 @@
         {% for libro in libros %}
         <div class="col">  <!-- Importante: envolver cada card en una col -->
             <div class="card h-100 mb-3">
+                {% if libro.imagen %}
+                    <img class="card-img-top" src="{{ libro.imagen }}" alt="{{ libro.titulo }}">
+                {% else %}
+                    <img class="card-img-top" src="{% static 'core/img/no_cover.png' %}" alt="Sin portada">
+                {% endif %}
                 <div class="card-body">
-                    <h5 class="card-title">{{ libro.nombre }}</h5>
+                    <h5 class="card-title">{{ libro.titulo }}</h5>
                     <p>{{ libro.autor }}</p>
                     <p>{{ libro.descripcion }}</p>
-                    <form action="{% url 'quitar_favoritos' libro.id %}" method="post">
+                    <form action="{% url 'quitar_favoritos' libro.isbn %}" method="post">
                         {% csrf_token %}
                         <input type="hidden" name="stay" value="{% url 'user' %}">
                         <button type="submit" class="btn btn-danger">Quitar de favoritos</button>
@@ -49,3 +54,4 @@
     {% else %}
     <p>Aún no tienes libros en favoritos.</p>
     {% endif %}
+</body>

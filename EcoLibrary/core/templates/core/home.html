@@ -27,6 +27,62 @@
         <!-- Quizas las mismas tarjetas -->
     </div>
     <!-- ---------------------------------------- -->
+    <!-- Listado de libros -->
+    <!-- Editar para poner la informacion de los libros -->
+    <div class="container mt-4">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for libro in libros %}
+            <div class="col">
+                <div class="card h-100">
+
+                    <!-- Imagen -->
+                    {% if libro.imagen %}
+                        <img class="card-img-top" src="{{ libro.imagen }}" alt="{{ libro.titulo }}">
+                    {% else %}
+                        <img class="card-img-top" src="{% static 'core/img/no_cover.png' %}" alt="Sin portada">
+                    {% endif %}
+
+                    <div class="card-body">
+                        <!-- Título -->
+                        <h5 class="card-title">{{ libro.titulo }}</h5>
+
+                        <!-- Autor -->
+                        <p class="card-text"><strong>Autor:</strong> {{ libro.autor }}</p>
+
+                        <!-- ISBN -->
+                        <p class="card-text"><strong>ISBN:</strong> {{ libro.isbn }}</p>
+
+                        <!-- Descripción -->
+                        <p class="card-text"><strong>Descripción:</strong> {{ libro.descripcion }}</p>
+
+                        <!-- Botón ver más -->
+                        <a href="{% url 'book_detail' libro.isbn %}">
+                            <button class="btn btn-primary">Ver más</button>
+                        </a>
+
+                        <!-- Boton de favorito -->
+                        <!-- Si el usuario esta inscrito -->
+                        {% if user.is_authenticated %}
+                            {% if user in libro.favoritos.all %}
+                                <form action="{% url 'quitar_favoritos' libro.isbn %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Quitar de favoritos</button>
+                                </form>
+                            <!-- Si el evento no esta lleno -->
+                            {% else %}
+                                <form action="{% url 'anadir_favoritos' libro.isbn %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary">Añadir a favoritos</button>
+                                </form>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
 </body>
 
 </html>

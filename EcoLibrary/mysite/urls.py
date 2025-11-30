@@ -25,8 +25,8 @@ urlpatterns = [
     path('registro/', views.register, name="register"),
     path('login/', auth_views.LoginView.as_view(template_name='core/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('libros/<int:libro_id>/anadir_favorito/', views.anadir_favoritos, name='anadir_favoritos'),
-    path('libros/<int:libro_id>/quitar_favorito/', views.quitar_favoritos, name='quitar_favoritos'),
+    path('libros/<int:isbn>/anadir_favorito/', views.anadir_favoritos, name='anadir_favoritos'),
+    path('libros/<int:isbn>/quitar_favorito/', views.quitar_favoritos, name='quitar_favoritos'),
     path('usuario/', views.mis_favoritos, name='user'),
     path('admin/', admin.site.urls),
     # API

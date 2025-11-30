@@ -16,8 +16,9 @@ def book_detail_view(request, isbn):
     })
 
 def home(request):
+    libro = Libro.objects.all().order_by('titulo')
     #return HttpResponse(titulo)
-    return render(request,'core/home.html')
+    return render(request,'core/home.html', {'libros': libro})
     
 def books(request):
     libro = Libro.objects.all().order_by('titulo')
@@ -36,9 +37,9 @@ def register(request):
     return render(request, 'core/register.html', {'form': form})
 
 @login_required
-def anadir_favoritos(request, libro_id):
+def anadir_favoritos(request, isbn):
     # Busca el libro en la coleccion
-    libro = get_object_or_404(Libro, id=libro_id)
+    libro = get_object_or_404(Libro, isbn=isbn)
     # Revisa si el usuario ya tiene el libro en sus favoritos
     # Si lo está, no hace nada
     if request.user in libro.favoritos.all():
@@ -50,8 +51,8 @@ def anadir_favoritos(request, libro_id):
     return redirect('books')
 
 @login_required
-def quitar_favoritos(request, libro_id):
-    libro = get_object_or_404(Libro, id=libro_id)
+def quitar_favoritos(request, isbn):
+    libro = get_object_or_404(Libro, isbn=isbn)
     # Revisa si el libro ya está en favoritos
     # Si lo está, lo quita
     if request.user in libro.favoritos.all():
@@ -66,5 +67,5 @@ def quitar_favoritos(request, libro_id):
 
 @login_required
 def mis_favoritos(request):
-    libros_favoritos = Libro.objects.filter(inscritos=request.user).order_by('titulo')
+    libros_favoritos = Libro.objects.filter(favoritos=request.user).order_by('titulo')
     return render(request, 'core/user.html', {'libros': libros_favoritos})
