@@ -3,14 +3,25 @@ from .models import libro as Libro
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from .services import get_book_extra_data
+
+def book_detail_view(request, isbn):
+    libro = get_object_or_404(Libro, isbn=isbn)
+    extra = get_book_extra_data(libro.isbn)
+
+    return render(request, "core/book_detail.html", {
+        "book": libro,
+        "extra": extra,
+    })
 
 def home(request):
     #return HttpResponse(titulo)
     return render(request,'core/home.html')
     
 def books(request):
-    libro = Libro.objects.all().order_by('id')
-    return render(request, 'core/books.html', {'libros': books})
+    libro = Libro.objects.all().order_by('titulo')
+    return render(request, 'core/books.html', {'libros': libro})
 
 def register(request):
     if request.method == 'POST':
@@ -18,7 +29,7 @@ def register(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
-            messages.success(request, f'Account created for {username}! You can now log in.')
+            messages.success(request, 'Cuenta creada.')
             return redirect('login')
     else:
         form = UserCreationForm()
@@ -55,5 +66,5 @@ def quitar_favoritos(request, libro_id):
 
 @login_required
 def mis_favoritos(request):
-    libros_favoritos = Libro.objects.filter(inscritos=request.user).order_by('id')
+    libros_favoritos = Libro.objects.filter(inscritos=request.user).order_by('titulo')
     return render(request, 'core/user.html', {'libros': libros_favoritos})

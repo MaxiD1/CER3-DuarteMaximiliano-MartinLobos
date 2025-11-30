@@ -3,7 +3,7 @@ from .models import libro
 
 @admin.register(libro)
 class EventoAdmin(admin.ModelAdmin):
-    list_display = ('titulo', 'autor', 'ano', 'categoria')
+    list_display = ('titulo', 'autor', 'isbn')
 
     '''
     def mostrar_num_inscritos(self, obj):

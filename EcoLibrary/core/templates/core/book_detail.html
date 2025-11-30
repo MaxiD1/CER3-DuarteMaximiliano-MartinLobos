@@ -1,0 +1,43 @@
+{% load static %}
+{% load tz %}  {# if you want to handle timezone display #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Texto en la pestaña -->
+    <title>Libros</title>
+    <!-- Vinculacion con el archivo css -->
+    <link rel="stylesheet" href="{% static 'core/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/mycss.css' %}">
+    <!-- Vinculacion con el archivo js -->
+    <script src="{% static 'core/js/bootstrap.js' %}"></script>
+    <script src="{% static 'core/js/myjs.js' %}"></script>
+    
+</head>
+
+<body>
+    <!-- Barra de navegacion -->
+    {% include 'core/nav_bar.html' %}
+
+    <h1>{{ extra.title }}</h1>
+
+    {% if extra.cover_url %}
+        <img src="{{ extra. }}" width="300">
+    {% endif %}
+
+    <p><strong>Autores:</strong> {{ extra.authors|join:", " }}</p>
+    <p><strong>Año:</strong> {{ extra.year }}</p>
+
+    <p><strong>Descripción:</strong></p>
+    <p>{{ extra.description }}</p>
+
+    <p><strong>Categorías:</strong></p>
+    <ul>
+        {% for cat in extra.categories %}
+            <li>{{ cat }}</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'books' %}">Volver</a>
+</body>

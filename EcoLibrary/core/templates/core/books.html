@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Texto en la pestaña -->
-    <title>Eventos</title>
+    <title>Libros</title>
     <!-- Vinculacion con el archivo css -->
     <link rel="stylesheet" href="{% static 'core/css/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'core/css/mycss.css' %}">
@@ -24,62 +24,42 @@
 
     <!-- Listado de libros -->
     <!-- Editar para poner la informacion de los libros -->
-   <div class="row row-cols-1 row-cols-md-1 g-1">
-        <div class="col">
-            <!-- Tarjetas sacadas de bootstrap.com -->
-            <!-- Tarjetas para los eventos -->-
-            {% for evento in eventos %}
-            <div class="card">
-                <!-- Imagen del elemento -->
-                <img class="card-img-top" src="{% static 'core/img/{{evento.imagen}}'%}" alt="Imagen del evento">
-                <!-- Cuerpo de la tarjeta -->
-                <div class="card-body">
-                    <!-- Titulo de la tarjeta -->
-                    <h5 class="card-title">{{evento.titulo}}</h5>
+    <div class="container mt-4">
+        <h1 class="mb-4">Libros disponibles</h1>
 
-                    <!-- Temporizador -->
-                    <!-- Formato: año-mes-dia-Thora:minuto:segundo -->
-                    <script>
-                        timer(new Date({{evento.fecha}}))
-                    </script>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for libro in libros %}
+            <div class="col">
+                <div class="card h-100">
 
-                    <!-- Fecha del evento (palabras) -->
-                    <p>{{evento.fecha_palabra}}</p>
-
-                    <!-- Descripcion del evento -->
-                    <p class="card-text">{{evento.descripcion}}</p>
-
-
-                    <p>Lugar: {{evento.lugar}}</p>
-                    <!-- Precio -->
-                    <p>{{evento.precio}} Pesos la entrada</p>
-                    
-                    <!-- Cantidad de inscritos -->
-                    <p><strong>Inscritos:</strong> {{ evento.total_inscritos }} / {{ evento.capacidad }}</p>
-                    
-                    <!-- Boton de inscripcion -->
-                    <!-- Si el usuario esta inscrito -->
-                    {% if user.is_authenticated %}
-                        {% if user in evento.inscritos.all %}
-                            <form action="{% url 'desinscribirse_evento' evento.id %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-danger">Desinscribirse</button>
-                            </form>
-                        <!-- Si el evento no esta lleno -->
-                        {% elif evento.hay_cupo %}
-                            <form action="{% url 'inscribirse_evento' evento.id %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-primary">Inscribirse</button>
-                            </form>
-                        <!-- Si el evento esta lleno -->
-                        {% else %}
-                            <button class="btn btn-secondary" disabled>Lleno</button>
-                        {% endif %}
+                    <!-- Imagen -->
+                    {% if book.cover_url %}
+                        <img class="card-img-top" src="{{ libro.imagen }}" alt="{{ libro.titulo }}">
+                    {% else %}
+                        <img class="card-img-top" src="{% static 'core/img/no_cover.png' %}" alt="Sin portada">
                     {% endif %}
+
+                    <div class="card-body">
+                        <!-- Título -->
+                        <h5 class="card-title">{{ libro.titulo }}</h5>
+
+                        <!-- Autor -->
+                        <p class="card-text"><strong>Autor:</strong> {{ libro.autor }}</p>
+
+                        <!-- ISBN -->
+                        <p class="card-text"><strong>ISBN:</strong> {{ libro.isbn }}</p>
+
+                        <!-- Botón ver más -->
+                        <a href="{% url 'book_detail' libro.isbn %}">
+                            <button class="btn btn-primary">Ver más</button>
+                        </a>
+                    </div>
+
                 </div>
             </div>
             {% endfor %}
         </div>
+
     </div>
 </body>
 </html>
